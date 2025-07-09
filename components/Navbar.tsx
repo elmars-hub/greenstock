@@ -34,15 +34,15 @@ export default async function Navbar() {
 
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" className="flex items-center gap-2" asChild>
-              <Link href="/plants">
-                <Sprout className="w-4 h-4" />
-                <span className="hidden lg:inline">Plant</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" className="flex items-center gap-2" asChild>
               <Link href="/">
                 <Home className="w-4 h-4" />
                 <span className="hidden lg:inline ">Home</span>
+              </Link>
+            </Button>
+            <Button variant="ghost" className="flex items-center gap-2" asChild>
+              <Link href="/plants">
+                <Sprout className="w-4 h-4" />
+                <span className="hidden lg:inline">Plant</span>
               </Link>
             </Button>
             <Toogle />
