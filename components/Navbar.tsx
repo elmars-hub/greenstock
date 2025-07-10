@@ -76,7 +76,13 @@ export default async function Navbar() {
             )}
           </div>
 
-          <div className="sm:hidden">
+          <div className="md:hidden flex items-center space-x-2">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/plants">
+                <Sprout className="w-4 h-4" />
+              </Link>
+            </Button>
+            <Toogle />
             <UserButton />
           </div>
         </div>

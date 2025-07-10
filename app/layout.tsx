@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/footer";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -39,6 +40,7 @@ export default function RootLayout({
             >
               <div className="flex min-h-screen flex-col">
                 <Navbar />
+                <Toaster />
                 <main className="flex-1">{children}</main>
                 <Footer />
               </div>

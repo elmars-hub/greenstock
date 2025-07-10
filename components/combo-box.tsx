@@ -6,7 +6,6 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-
 const plantCategories = [
   { value: "", label: "All Categories" },
   { value: "Indoor", label: "Indoor" },
@@ -31,23 +30,27 @@ export function Combobox({ value, onChange }: ComboboxProps) {
 
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     }
 
     if (open) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
 
   return (
     <div className="relative" ref={dropdownRef}>
       <Button
+        type="button"
         variant="outline"
         role="combobox"
         aria-expanded={open}
@@ -57,7 +60,7 @@ export function Combobox({ value, onChange }: ComboboxProps) {
         {selected || "Select category..."}
         <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
       </Button>
-      
+
       {open && (
         <div className="absolute top-full left-0 mt-1 w-[200px] bg-white border border-gray-200 rounded-md shadow-lg z-50">
           <div className="p-4">
@@ -66,7 +69,6 @@ export function Combobox({ value, onChange }: ComboboxProps) {
                 key={cat.value}
                 className="flex items-center space-x-2 p-2 hover:bg-gray-100 cursor-pointer rounded text-black"
                 onClick={() => {
-                  console.log("Category clicked:", cat.value);
                   onChange(cat.value);
                   setOpen(false);
                 }}
