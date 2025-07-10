@@ -72,7 +72,7 @@ export default function InventoryTable({
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="cursor-pointer">
           {filteredPlants && filteredPlants.length > 0 ? (
             filteredPlants.map((plant) => {
               const slugifiedName = plant.name
