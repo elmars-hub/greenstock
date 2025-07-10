@@ -18,7 +18,7 @@ datasource db {
 model Plants {
   id String @id @default(cuid())
   name String
-  description String
+  description String?
   category String
   stock Int
   price Float

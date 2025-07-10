@@ -1,4 +1,4 @@
-import { InventoryTable } from "@/components/InventoryTable";
+import InventoryTable from "@/components/InventoryTable";
 import { stackServerApp } from "@/stack";
 import { SignUp } from "@stackframe/stack";
 import { getPlants } from "../actions/plant.action";
