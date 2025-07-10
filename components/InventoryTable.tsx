@@ -13,16 +13,8 @@ import { Input } from "./ui/input";
 import { Combobox } from "./combo-box";
 import { useState } from "react";
 import { getPlants } from "@/app/actions/plant.action";
+import { useRouter } from "next/navigation";
 
-// const plants = [
-//   {
-//     id: 1,
-//     name: "Snake plant",
-//     category: "Indoor",
-//     price: 2,
-//     stock: 10,
-//   },
-// ];
 type Plant = Awaited<ReturnType<typeof getPlants>>;
 
 interface InventoryTableProps {
@@ -30,7 +22,8 @@ interface InventoryTableProps {
 }
 
 export default function InventoryTable({ plants }: InventoryTableProps) {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const router = useRouter();
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredPlants = plants?.userPlants?.filter(
@@ -72,25 +65,32 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
         </TableHeader>
         <TableBody>
           {filteredPlants && filteredPlants.length > 0 ? (
-            filteredPlants.map((plant) => (
-              <TableRow key={plant.id}>
-                <TableCell className="font-medium">{plant.id}</TableCell>
-                <TableCell>{plant.name}</TableCell>
-                <TableCell>{plant.category}</TableCell>
-                <TableCell>{plant.price}</TableCell>
-                <TableCell className="font-bold">{plant.stock}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end space-x-4">
-                    <button className="text-blue-600 hover:underline">
-                      Edit
-                    </button>
-                    <button className="text-red-600 hover:underline">
-                      Delete
-                    </button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))
+            filteredPlants.map((plant) => {
+              const slugifiedName = plant.name
+                .toLowerCase()
+                .replace(/\s+/g, "-");
+              const slug = `${plant.id}--${slugifiedName}`;
+              const plantUrl = `/plants/${slug}`;
+              return (
+                <TableRow key={plant.id} onClick={() => router.push(plantUrl)}>
+                  <TableCell className="font-medium">{plant.id}</TableCell>
+                  <TableCell>{plant.name}</TableCell>
+                  <TableCell>{plant.category}</TableCell>
+                  <TableCell>{plant.price}</TableCell>
+                  <TableCell className="font-bold">{plant.stock}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end space-x-4">
+                      <button className="text-blue-600 hover:underline">
+                        Edit
+                      </button>
+                      <button className="text-red-600 hover:underline">
+                        Delete
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-8">
