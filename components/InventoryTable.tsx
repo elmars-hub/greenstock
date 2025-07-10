@@ -57,6 +57,8 @@ export default function InventoryTable({
           value={selectedCategory}
           onChange={(val) => setSelectedCategory(val)}
         />
+
+        <h1>Create</h1>
       </div>
       <Table>
         <TableHeader>
