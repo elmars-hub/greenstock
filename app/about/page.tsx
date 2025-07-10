@@ -6,12 +6,12 @@ export default function About() {
       </h1>
 
       <p className="mb-6 text-lg">
-        <strong>Plantventory</strong> is your personal plant management tool —
+        <strong>Plantventory</strong> is your personal plant management tool
         designed to help you{" "}
         <span className="font-medium">
           track, manage, and organize your plant discoveries
         </span>{" "}
-        with ease. Whether you're a plant enthusiast or just getting started,
+        with ease. Whether you are a plant enthusiast or just getting started,
         Plantventory lets you easily{" "}
         <span className="font-medium">create, save, edit, and delete</span>{" "}
         plant records as your collection grows.

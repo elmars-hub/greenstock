@@ -29,12 +29,12 @@ interface InventoryTableProps {
   plants: Plant;
 }
 
-export function InventoryTable({ plants }: InventoryTableProps) {
+export default function InventoryTable({ plants }: InventoryTableProps) {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredPlants = plants?.userPlants?.filter(
-    (plant: { name: string; category: string }) =>
+    (plant) =>
       plant.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedCategory === "" || plant.category === selectedCategory)
   );
