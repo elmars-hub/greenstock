@@ -75,6 +75,10 @@ export default async function Navbar() {
               </Button>
             )}
           </div>
+
+          <div className="sm:hidden">
+            <UserButton />
+          </div>
         </div>
       </div>
     </nav>

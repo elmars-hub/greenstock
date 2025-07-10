@@ -12,19 +12,81 @@ import { Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { Combobox } from "./combo-box";
 import { useState } from "react";
-import { getPlants } from "@/app/actions/plant.action";
+import type { getPlants } from "@/app/actions/plant.action";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Plant = Awaited<ReturnType<typeof getPlants>>;
 
 interface InventoryTableProps {
-  plants: Plant;
+  plants?: Plant;
+  loading?: boolean;
 }
 
-export default function InventoryTable({ plants }: InventoryTableProps) {
+export default function InventoryTable({
+  plants,
+  loading = false,
+}: InventoryTableProps) {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
+
+  if (loading) {
+    return (
+      <div className="w-full space-y-4">
+        <div className="flex items-center justify-center py-4">
+        
+        </div>
+        <div className="flex items-center gap-2 py-4">
+          <div className="relative max-w-sm w-full">
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <Skeleton className="h-10 w-[200px]" />
+        </div>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Plant ID</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Stock</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Array.from({ length: 6 }).map((_, index) => (
+                <TableRow key={`skeleton-${index}`}>
+                  <TableCell>
+                    <Skeleton className="h-4 w-16" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-32" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-24" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-20" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-4 w-12" />
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end space-x-4">
+                      <Skeleton className="h-4 w-8" />
+                      <Skeleton className="h-4 w-12" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    );
+  }
 
   const filteredPlants = plants?.userPlants?.filter(
     (plant) =>
@@ -33,29 +95,26 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-4">
       <div className="flex items-center gap-2 py-4">
-        <div className="relative max-w--sm w-full">
+        <div className="relative max-w-sm w-full">
           <Input
             placeholder="Filter plants..."
             className="pl-10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
           <Search className="absolute h-4 w-4 left-3 top-1/2 transform -translate-y-1/2" />
         </div>
-
         <Combobox
           value={selectedCategory}
           onChange={(val) => setSelectedCategory(val)}
         />
       </div>
-
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="">Plant ID</TableHead>
+            <TableHead>Plant ID</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Price</TableHead>
