@@ -6,6 +6,7 @@ import { stackServerApp } from "@/stack";
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default function Page({ params }: { params: { slug: string } }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any>(null);
@@ -21,6 +22,11 @@ export const revalidate = 0;
 >>>>>>> parent of be22a4f (update)
 =======
 >>>>>>> parent of 09ed042 (fix : error)
+=======
+// Force dynamic rendering for this route
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+>>>>>>> parent of be22a4f (update)
 
 export async function generateMetadata({
   params,
@@ -31,6 +37,7 @@ export async function generateMetadata({
     const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         if (currentUser) {
@@ -112,6 +119,25 @@ async function Page({ params }: { params: { slug: string } }) {
   // Early return for build time
   if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
 >>>>>>> parent of be22a4f (update)
+=======
+    return {
+      title: plant ? plant.name : "Plant Details",
+      description: plant
+        ? plant.description || "Plant details page"
+        : "Plant details page",
+    };
+  } catch {
+    return {
+      title: "Plant Details",
+      description: "Plant details page",
+    };
+  }
+}
+
+async function Page({ params }: { params: { slug: string } }) {
+  // Early return for build time
+  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+>>>>>>> parent of be22a4f (update)
     return (
       <div className="mt-7 max-w-7xl mx-auto px-4">
         <div className="text-center py-10">
@@ -127,6 +153,7 @@ async function Page({ params }: { params: { slug: string } }) {
   }
 
   try {
+<<<<<<< HEAD
 =======
 >>>>>>> parent of f4dddc2 (fix)
 =======
@@ -149,6 +176,8 @@ async function Page({ params }: { params: { slug: string } }) {
     }
 
 >>>>>>> parent of 09ed042 (fix : error)
+=======
+>>>>>>> parent of be22a4f (update)
     const user = await stackServerApp.getUser();
     const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
@@ -196,6 +225,7 @@ async function Page({ params }: { params: { slug: string } }) {
       </div>
     );
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 export async function generateMetadata({
@@ -258,6 +288,8 @@ async function Page({ params }: { params: { slug: string } }) {
       </div>
     </div>
   );
+=======
+>>>>>>> parent of be22a4f (update)
 =======
 >>>>>>> parent of be22a4f (update)
 }
