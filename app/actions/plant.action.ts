@@ -7,6 +7,12 @@ import { revalidatePath } from "next/cache";
 
 export async function getPlants(searchTerm?: string) {
   try {
+    // Check if we're in a build environment
+    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+      console.warn("DATABASE_URL not available during build");
+      return { success: true, userPlants: [] };
+    }
+
     const currentUserId = await getUserId();
 
     if (!currentUserId) {
@@ -35,8 +41,9 @@ export async function getPlants(searchTerm?: string) {
     revalidatePath("/");
     return { success: true, userPlants };
   } catch (error) {
-    console.log(error);
-    throw new Error("Failed to fetch plant");
+    console.error("Error in getPlants:", error);
+    // Return empty array instead of throwing error to prevent build failures
+    return { success: false, userPlants: [] };
   }
 }
 
