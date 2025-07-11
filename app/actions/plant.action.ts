@@ -23,6 +23,9 @@ export async function getPlants(searchTerm?: string) {
 
     const userPlants = await prisma.plants.findMany({
       where: whereClause,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     revalidatePath("/");
