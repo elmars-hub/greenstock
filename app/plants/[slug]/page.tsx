@@ -16,8 +16,11 @@ export default function Page({ params }: { params: { slug: string } }) {
 =======
 // Force dynamic rendering for this route
 export const dynamic = "force-dynamic";
+<<<<<<< HEAD
 export const revalidate = 0;
 >>>>>>> parent of be22a4f (update)
+=======
+>>>>>>> parent of 09ed042 (fix : error)
 
 export async function generateMetadata({
   params,
@@ -105,6 +108,7 @@ async function Page({ params }: { params: { slug: string } }) {
 }
 
 async function Page({ params }: { params: { slug: string } }) {
+<<<<<<< HEAD
   // Early return for build time
   if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
 >>>>>>> parent of be22a4f (update)
@@ -125,6 +129,26 @@ async function Page({ params }: { params: { slug: string } }) {
   try {
 =======
 >>>>>>> parent of f4dddc2 (fix)
+=======
+  try {
+    // Check if we're in a build environment without proper database connection
+    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+      return (
+        <div className="mt-7 max-w-7xl mx-auto px-4">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Service Temporarily Unavailable
+            </h1>
+            <p className="text-gray-600">
+              We're experiencing some technical difficulties. Please try again
+              later.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+>>>>>>> parent of 09ed042 (fix : error)
     const user = await stackServerApp.getUser();
     const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);

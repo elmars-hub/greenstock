@@ -8,7 +8,6 @@ import { Suspense } from "react";
 <<<<<<< HEAD
 // Force dynamic rendering for this page since it uses cookies
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 =======
 >>>>>>> parent of b4498f2 (fix: error handling)
@@ -25,6 +24,7 @@ function PlantsTableSkeleton() {
 }
 
 export default async function Plants() {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   // Early return for build time
@@ -45,6 +45,8 @@ export default async function Plants() {
     );
   }
 
+=======
+>>>>>>> parent of 09ed042 (fix : error)
   try {
     const user = await stackServerApp.getUser();
 =======
