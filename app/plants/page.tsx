@@ -5,10 +5,13 @@ import { getPlants } from "../actions/plant.action";
 import { Suspense } from "react";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Force dynamic rendering for this page since it uses cookies
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+=======
+>>>>>>> parent of b4498f2 (fix: error handling)
 =======
 >>>>>>> parent of b4498f2 (fix: error handling)
 function PlantsTableSkeleton() {
@@ -22,6 +25,7 @@ function PlantsTableSkeleton() {
 }
 
 export default async function Plants() {
+<<<<<<< HEAD
 <<<<<<< HEAD
   // Early return for build time
   if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
@@ -43,6 +47,9 @@ export default async function Plants() {
 
   try {
     const user = await stackServerApp.getUser();
+=======
+  const user = await stackServerApp.getUser();
+>>>>>>> parent of b4498f2 (fix: error handling)
 =======
   const user = await stackServerApp.getUser();
 >>>>>>> parent of b4498f2 (fix: error handling)

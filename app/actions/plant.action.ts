@@ -8,12 +8,15 @@ import { revalidatePath } from "next/cache";
 export async function getPlants(searchTerm?: string) {
   try {
 <<<<<<< HEAD
+<<<<<<< HEAD
     // Check if we're in a build environment or missing database URL
     if (!process.env.DATABASE_URL || (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL)) {
       console.warn("DATABASE_URL not available during build");
       return { success: true, userPlants: [] };
     }
 
+=======
+>>>>>>> parent of b4498f2 (fix: error handling)
 =======
 >>>>>>> parent of b4498f2 (fix: error handling)
     const currentUserId = await getUserId();
