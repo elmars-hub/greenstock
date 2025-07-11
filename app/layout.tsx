@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackServerApp } from "../stack";
@@ -19,7 +19,16 @@ export const metadata: Metadata = {
   description: "Manage your plants",
   keywords: ["plants", "inventory", "management", "gardening"],
   authors: [{ name: "Martin Ifeanyi" }],
-  viewport: "width=device-width, initial-scale=1",
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { UploadDropzone } from "@uploadthing/react";
-import { XIcon, Upload, Image as ImageIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 import React, { useState } from "react";
 
 interface ImageUploadProps {
@@ -87,16 +87,19 @@ function ImageUpload({ endpoint, onChange, value }: ImageUploadProps) {
           transition-colors
           bg-muted/30
           hover:bg-muted/50
-          ${isUploading ? 'opacity-75 cursor-not-allowed' : ''}
+          ${isUploading ? "opacity-75 cursor-not-allowed" : ""}
         `}
         content={{
           allowedContent: "Images up to 4MB",
           button: isUploading ? "Uploading..." : "Choose Image",
-          label: isUploading ? "Uploading your image..." : "Drop your image here or click to browse",
+          label: isUploading
+            ? "Uploading your image..."
+            : "Drop your image here or click to browse",
         }}
         appearance={{
           allowedContent: "text-muted-foreground text-xs mt-1",
-          button: "bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-3 py-1.5 rounded-md transition-all",
+          button:
+            "bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-3 py-1.5 rounded-md transition-all",
           label: "text-base text-foreground font-medium",
         }}
       />

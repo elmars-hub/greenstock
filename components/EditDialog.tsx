@@ -17,6 +17,7 @@ import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { editPlant, getPlantsById } from "@/app/actions/plant.action";
+import ImageUpload from "./imageUpload";
 
 type Plant = NonNullable<Awaited<ReturnType<typeof getPlantsById>>>;
 
@@ -152,8 +153,9 @@ export default function EditDialog({ plant }: EditDialogProps) {
             </div>
           </div>
 
-          {/* Image Upload */}
-          {/* <div className="py-5">
+          {/* Image Edit */}
+          <div className="space-y-2">
+            <Label>Image</Label>
             <ImageUpload
               endpoint="postImage"
               value={formData.imageUrl}
@@ -161,7 +163,7 @@ export default function EditDialog({ plant }: EditDialogProps) {
                 handleChange("imageUrl", url);
               }}
             />
-          </div> */}
+          </div>
 
           <AlertDialogFooter className="mt-4">
             <AlertDialogCancel className="cursor-pointer">
