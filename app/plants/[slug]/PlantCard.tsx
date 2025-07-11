@@ -43,7 +43,7 @@ export default function PlantCard({ plant }: PlantCardProps) {
 
         {/* Content Section */}
         <div className="w-full lg:w-1/2 flex flex-col justify-between">
-          <CardContent className=" px-3 lg:p-6 space-y-4 lg:space-y-6">
+          <CardContent className="px-3 lg:p-6 space-y-4 lg:space-y-6">
             <div className="space-y-2">
               <CardTitle className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
                 {plant.name}
@@ -56,7 +56,7 @@ export default function PlantCard({ plant }: PlantCardProps) {
             <div className="space-y-3">
               <Badge className="text-sm px-3 py-1">{plant.category}</Badge>
               <CardDescription className="text-base">
-                Stock: {plant.stock} {plant.stock === 1 ? 'Unit' : 'Units'}
+                Stock: {plant.stock} units
               </CardDescription>
             </div>
 

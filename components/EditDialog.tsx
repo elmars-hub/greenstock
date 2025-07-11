@@ -9,25 +9,31 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import { Sprout } from "lucide-react";
+import { EditIcon } from "lucide-react";
 import { Label } from "@radix-ui/react-label";
 import { Combobox } from "./combo-box";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
-import { createPlant } from "@/app/actions/user.action";
 import { toast } from "react-hot-toast";
+import { editPlant, getPlantsById } from "@/app/actions/plant.action";
 
-export default function CreateDialog() {
+type Plant = NonNullable<Awaited<ReturnType<typeof getPlantsById>>>;
+
+interface EditDialogProps {
+  plant: Plant;
+}
+
+export default function EditDialog({ plant }: EditDialogProps) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    category: "",
-    imageUrl: "",
-    stock: 1,
+    name: plant?.name.trim(),
+    description: (plant?.description || "").trim(),
+    price: plant?.price,
+    category: plant?.category,
+    imageUrl: plant?.imageUrl || "",
+    stock: plant?.stock,
   });
 
   const handleChange = (field: string, value: string | number) => {
@@ -41,48 +47,17 @@ export default function CreateDialog() {
   };
 
   const submitForm = async () => {
-    // Client-side validation
-    if (!formData.name.trim()) {
-      toast.error("Name is required");
-      return;
-    }
-    if (!formData.category) {
-      toast.error("Category is required");
-      return;
-    }
-    if (!formData.price || Number(formData.price) <= 0) {
-      toast.error("Price must be greater than 0");
-      return;
-    }
-    if (formData.stock < 0) {
-      toast.error("Stock cannot be negative");
-      return;
-    }
-
     setIsLoading(true);
     try {
-      const newPlant = await createPlant({
+      await editPlant(plant.id, {
         ...formData,
         price: Number(formData.price),
       });
-      if (newPlant) {
-        toast.success("Plant added successfully!");
-
-        setFormData({
-          name: "",
-          description: "",
-          price: "",
-          category: "",
-          imageUrl: "",
-          stock: 1,
-        });
-
-        // Only close the dialog on successful submission
-        setOpen(false);
-      }
+      toast.success("Plant updated successfully!");
+      setOpen(false);
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("Failed to add plant. Please try again.");
+      toast.error("Failed to update plant. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -101,8 +76,7 @@ export default function CreateDialog() {
           asChild
         >
           <span>
-            <Sprout className="w-4 h-4" />
-            Add Plant
+            <EditIcon className="w-4 h-4 cursor-pointer" />
           </span>
         </Button>
       </AlertDialogTrigger>
@@ -199,7 +173,7 @@ export default function CreateDialog() {
               onClick={handleButtonClick}
               disabled={isLoading}
             >
-              {isLoading ? "Adding..." : "Add"}
+              {isLoading ? "Updating..." : "Update"}
             </Button>
           </AlertDialogFooter>
         </form>
