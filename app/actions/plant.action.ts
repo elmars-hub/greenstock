@@ -7,23 +7,6 @@ import { revalidatePath } from "next/cache";
 
 export async function getPlants(searchTerm?: string) {
   try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    // Check if we're in a build environment or missing database URL
-    if (!process.env.DATABASE_URL || (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL)) {
-=======
-    // Check if we're in a build environment
-    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
->>>>>>> parent of 09ed042 (fix : error)
-      console.warn("DATABASE_URL not available during build");
-      return { success: true, userPlants: [] };
-    }
-
-=======
->>>>>>> parent of b4498f2 (fix: error handling)
-=======
->>>>>>> parent of b4498f2 (fix: error handling)
     const currentUserId = await getUserId();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,9 +23,6 @@ export async function getPlants(searchTerm?: string) {
 
     const userPlants = await prisma.plants.findMany({
       where: whereClause,
-      orderBy: {
-        createdAt: 'desc',
-      },
     });
 
     revalidatePath("/");
@@ -54,34 +34,9 @@ export async function getPlants(searchTerm?: string) {
 }
 
 export async function getPlantsById(id: string) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  try {
-    // Check if we're in a build environment
-    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
-      console.warn("DATABASE_URL not available during build");
-      return null;
-    }
-
-    const plant = await prisma.plants.findUnique({
-      where: { id },
-    });
-
-    return plant;
-  } catch (error) {
-    console.error("Error in getPlantsById:", error);
-    return null;
-  }
-=======
   return await prisma.plants.findUnique({
     where: { id },
   });
->>>>>>> parent of f4dddc2 (fix)
-=======
-  return await prisma.plants.findUnique({
-    where: { id },
-  });
->>>>>>> parent of f4dddc2 (fix)
 }
 
 export async function editPlant(id: string, data: Prisma.PlantsUpdateInput) {
