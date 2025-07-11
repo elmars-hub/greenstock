@@ -9,11 +9,11 @@ import {
 
 export default function Footer() {
   return (
-    <footer>
-      <div className="max-w-screen-xl mx-auto">
+    <footer className="w-full">
+      <div className="w-full">
         <div className="grow bg-muted">
           <Separator />
-          <div className="py-4 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-x-2 px-4 sm:px-6 xl:px-0">
+          <div className="py-4 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-x-2 px-4 sm:px-6">
             <span className="text-muted-foreground text-sm sm:text-base text-center sm:text-left">
               &copy; {new Date().getFullYear()}{" "}
               <Link href="/" target="_blank" className="hover:underline">

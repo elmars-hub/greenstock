@@ -21,7 +21,7 @@ export default async function Navbar() {
               href="/"
               className="text-xl font-bold text-primary font-mono tracking-wider"
             >
-              🪴 GreenStock
+              🪴 <span className="text-green-600 dark:text-green-400">Green</span>Stock
             </Link>
           </div>
 
