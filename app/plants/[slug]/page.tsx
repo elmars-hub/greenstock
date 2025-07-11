@@ -4,6 +4,8 @@ import { getPlantsById } from "@/app/actions/plant.action";
 import { SignIn } from "@stackframe/stack";
 import { stackServerApp } from "@/stack";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {
@@ -28,19 +30,41 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: { slug: string } }) {
   try {
-    let user;
+    // Safely get user without failing the build
+    let user = null;
     try {
       user = await stackServerApp.getUser();
     } catch (stackError) {
       console.error("Stack authentication error:", stackError);
-      user = null;
+      // Don't throw here, just continue with user = null
     }
 
     const [id] = params.slug.split("--");
-    const plant = await getPlantsById(id);
+    
+    // Safely get plant data
+    let plant = null;
+    try {
+      plant = await getPlantsById(id);
+    } catch (dbError) {
+      console.error("Database error:", dbError);
+      // Don't throw here, just continue with plant = null
+    }
 
+    // If no user, show sign in
     if (!user) {
       return <SignIn />;
+    }
+
+    // If no plant found, show error
+    if (!plant) {
+      return (
+        <div className="mt-7 max-w-7xl mx-auto px-4">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Plant Not Found</h1>
+            <p className="text-gray-600">The plant you're looking for doesn't exist or has been removed.</p>
+          </div>
+        </div>
+      );
     }
 
     return (

@@ -4,6 +4,8 @@ import { SignUp } from "@stackframe/stack";
 import { getPlants } from "../actions/plant.action";
 import { Suspense } from "react";
 
+export const dynamic = "force-dynamic";
+
 function PlantsTableSkeleton() {
   return (
     <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
