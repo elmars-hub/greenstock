@@ -1,63 +1,55 @@
-export default function About() {
+export default function AboutPage() {
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10 text-gray-800 dark:text-gray-200">
-      <h1 className="text-4xl font-bold mb-6 text-green-700 dark:text-green-400">
-        🌿 About Plantventory
-      </h1>
-
-      <p className="mb-6 text-lg">
-        <strong>Plantventory</strong> is your personal plant management tool
-        designed to help you{" "}
-        <span className="font-medium">
-          track, manage, and organize your plant discoveries
-        </span>{" "}
-        with ease. Whether you are a plant enthusiast or just getting started,
-        Plantventory lets you easily{" "}
-        <span className="font-medium">create, save, edit, and delete</span>{" "}
-        plant records as your collection grows.
-      </p>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4 text-green-600 dark:text-green-300">
-        🔧 What You Can Do
-      </h2>
-      <ul className="list-disc list-inside space-y-2">
-        <li>✅ Create new plant entries</li>
-        <li>✏️ Edit existing plants anytime</li>
-        <li>🗑️ Delete plants from your list</li>
-        <li>🔍 Search and filter your plants</li>
-        <li>🔐 Secure user authentication</li>
-        <li>📁 Save and manage your favorite plant discoveries</li>
-      </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4 text-green-600 dark:text-green-300">
-        🚀 Why Plantventory?
-      </h2>
-      <p className="mb-6">
-        Managing your plant collection shouldn’t be a chore. Plantventory is
-        built for simplicity, speed, and security — making it easy to log every
-        leaf, fern, and flower you find.
-      </p>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4 text-green-600 dark:text-green-300">
-        🛠️ Tech Stack
-      </h2>
-      <ul className="list-disc list-inside space-y-2 mb-6">
-        <li>⚡ Next.js & TypeScript – modern, fast web app foundation</li>
-        <li>
-          📦 Prisma & PostgreSQL – powerful and flexible database handling
-        </li>
-        <li>🎨 Tailwind CSS – clean, responsive design</li>
-        <li>🔐 Stack Auth – secure login and session management</li>
-        <li>🌐 Neon & Vercel – cloud-native deployment and hosting</li>
-      </ul>
-
-      <h2 className="text-2xl font-semibold mt-8 mb-4 text-green-600 dark:text-green-300">
-        🌱 Ready to Grow?
-      </h2>
-      <p>
-        Create an account, start exploring, and build your unique Plantventory
-        today.
-      </p>
-    </main>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-8">🌿 About GreenStock</h1>
+        
+        <div className="prose prose-lg max-w-none">
+          <p className="text-lg mb-6">
+            <strong>GreenStock</strong> is your personal plant management tool
+            designed to help you organize and track your plant collection with ease.
+          </p>
+          
+          <p className="mb-6">
+            GreenStock lets you easily{" "}
+            <strong>add, edit, and manage</strong> your plants with detailed
+            information including names, descriptions, categories, prices, and stock
+            levels. Our intuitive interface makes plant inventory management
+            simple and efficient.
+          </p>
+          
+          <div className="bg-muted p-6 rounded-lg my-8">
+            <h2 className="text-2xl font-semibold mb-4">🚀 Why GreenStock?</h2>
+            <ul className="space-y-3">
+              <li>
+                <strong>Simple Management:</strong> Managing your plant collection shouldn't be a chore. GreenStock is
+                designed with simplicity in mind, making it easy to add and organize your plants.
+              </li>
+              <li>
+                <strong>Detailed Tracking:</strong> Keep track of important details like plant names, descriptions,
+                categories, prices, and stock levels all in one place.
+              </li>
+              <li>
+                <strong>Visual Organization:</strong> Upload images of your plants to create a visual inventory
+                that helps you identify and manage your collection.
+              </li>
+              <li>
+                <strong>Category System:</strong> Organize your plants by categories like Indoor, Outdoor,
+                Succulent, Flowering, Herb, Fern, Tree, and Shrub.
+              </li>
+              <li>
+                <strong>Stock Management:</strong> Track how many of each plant you have in stock, perfect for
+                nurseries, garden centers, or personal collections.
+              </li>
+            </ul>
+          </div>
+          
+          <p className="text-lg">
+            Create an account, start exploring, and build your unique GreenStock
+            collection today!
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Plantventory",
-  description: "Manage your plants",
-  keywords: ["plants", "inventory", "management", "gardening"],
+  title: "GreenStock",
+  description: "Organize and track your plant collection with ease. Manage inventory, categories, and stock levels for your green business or personal garden.",
+  keywords: ["plants", "inventory", "management", "gardening", "nursery", "garden center", "stock tracking"],
   authors: [{ name: "Martin Ifeanyi" }],
   icons: {
     icon: '/favicon.svg',

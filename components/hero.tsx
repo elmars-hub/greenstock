@@ -37,11 +37,11 @@ async function Hero() {
             <div>
               <h1 className="mb-6 text-2xl font-bold tracking-tight text-pretty lg:text-5xl leading-16">
                 Manage and Save your plant discoveries with{" "}
-                <span className="text-primary">Plantventory</span>
+                <span className="text-primary">GreenStock</span>
               </h1>
               <p className="mx-auto max-w-3xl text-muted-foreground lg:text-xl">
                 Discover, organize, and keep track of all your favorite plants
-                in one place. With Plantventory, managing your green collection
+                in one place. With GreenStock, managing your green collection
                 has never been easier.
               </p>
             </div>

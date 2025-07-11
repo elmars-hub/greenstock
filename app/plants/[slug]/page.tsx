@@ -18,7 +18,7 @@ export async function generatedMetadata({
   };
 }
 
-async function page({ params }: { params: { slug: string } }) {
+async function Page({ params }: { params: { slug: string } }) {
   const user = await stackServerApp.getUser();
   const [id] = params.slug.split("--");
   const plant = await getPlantsById(id);
@@ -36,4 +36,4 @@ async function page({ params }: { params: { slug: string } }) {
   );
 }
 
-export default page;
+export default Page;
