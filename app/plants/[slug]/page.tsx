@@ -4,7 +4,7 @@ import { getPlantsById } from "@/app/actions/plant.action";
 import { SignIn } from "@stackframe/stack";
 import { stackServerApp } from "@/stack";
 
-export async function generatedMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };

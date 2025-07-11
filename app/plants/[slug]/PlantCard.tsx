@@ -21,7 +21,7 @@ export default function PlantCard({ plant }: PlantCardProps) {
   }
 
   return (
-    <Card className="w-full max-w-5xl mx-auto">
+    <Card className="w-full max-w-5xl mx-auto py-5 pb-6">
       <div className="flex flex-col lg:flex-row">
         {/* Image Section */}
         <div className="w-full lg:w-1/2">
