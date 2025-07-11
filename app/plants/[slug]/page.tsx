@@ -41,7 +41,8 @@ async function Page({ params }: { params: { slug: string } }) {
               Service Temporarily Unavailable
             </h1>
             <p className="text-gray-600">
-              We're experiencing some technical difficulties. Please try again later.
+              We're experiencing some technical difficulties. Please try again
+              later.
             </p>
           </div>
         </div>
