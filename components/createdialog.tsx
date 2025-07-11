@@ -108,7 +108,7 @@ export default function CreateDialog() {
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent className="max-w-[95vw] w-full max-h-[90vh] overflow-y-auto">
         <AlertDialogHeader>
           <AlertDialogTitle>Add a Plant</AlertDialogTitle>
           <AlertDialogDescription>
@@ -116,9 +116,9 @@ export default function CreateDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
@@ -129,7 +129,7 @@ export default function CreateDialog() {
                 required
               />
             </div>
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
               <Combobox
                 value={formData.category}
@@ -138,20 +138,19 @@ export default function CreateDialog() {
             </div>
           </div>
 
-          <div className="mt-2">
-            <Label htmlFor="description" className="mt-2">
-              Description
-            </Label>
+          <div className="space-y-2">
+            <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               placeholder="Type your message here."
-              rows={5}
+              rows={4}
               value={formData.description}
               onChange={(e) => handleChange("description", e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4 mt-2">
-            <div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
               <Label htmlFor="stock">Stock</Label>
               <Input
                 id="stock"
@@ -165,7 +164,7 @@ export default function CreateDialog() {
               />
             </div>
 
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="price">Price</Label>
               <Input
                 id="price"
@@ -180,7 +179,8 @@ export default function CreateDialog() {
           </div>
 
           {/* Image Upload */}
-          <div className="py-5">
+          <div className="space-y-2">
+            <Label>Image</Label>
             <ImageUpload
               endpoint="postImage"
               value={formData.imageUrl}
@@ -190,7 +190,7 @@ export default function CreateDialog() {
             />
           </div>
 
-          <AlertDialogFooter className="mt-4">
+          <AlertDialogFooter className="mt-6">
             <AlertDialogCancel className="cursor-pointer">
               Cancel
             </AlertDialogCancel>

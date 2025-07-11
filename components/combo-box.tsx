@@ -48,13 +48,13 @@ export function Combobox({ value, onChange }: ComboboxProps) {
   }, [open]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative w-full" ref={dropdownRef}>
       <Button
         type="button"
         variant="outline"
         role="combobox"
         aria-expanded={open}
-        className="w-[200px] justify-between cursor-pointer"
+        className="w-full justify-between cursor-pointer"
         onClick={() => setOpen(!open)}
       >
         {selected || "Select category..."}
@@ -62,8 +62,8 @@ export function Combobox({ value, onChange }: ComboboxProps) {
       </Button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 w-[200px] bg-white border border-gray-200 rounded-md shadow-lg z-50">
-          <div className="p-4">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+          <div className="p-2">
             {plantCategories.map((cat) => (
               <div
                 key={cat.value}
