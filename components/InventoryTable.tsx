@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import SkeletonLoader from "./skeleton";
 import CreateDialog from "./createdialog";
 import EditDialog from "./EditDialog";
+import DeleteDialog from "./DeleteDialog";
 
 type Plant = Awaited<ReturnType<typeof getPlants>>;
 
@@ -94,9 +95,7 @@ export default function InventoryTable({
                       onClick={(e) => e.stopPropagation()}
                     >
                       <EditDialog plant={plant} />
-                      <button className="text-red-600 hover:underline">
-                        Delete
-                      </button>
+                      <DeleteDialog plant={plant} />
                     </div>
                   </TableCell>
                 </TableRow>

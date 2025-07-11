@@ -30,8 +30,7 @@ export async function getUserId() {
   return userId;
 }
 
-// Type for creating plants without userId (it's set automatically)
-type CreatePlantInput = Omit<Prisma.PlantsCreateInput, 'userId'>;
+type CreatePlantInput = Omit<Prisma.PlantsCreateInput, "userId">;
 
 export async function createPlant(data: CreatePlantInput) {
   try {
