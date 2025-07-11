@@ -18,10 +18,6 @@ export async function getPlants(searchTerm?: string) {
 >>>>>>> parent of b4498f2 (fix: error handling)
     const currentUserId = await getUserId();
 
-    if (!currentUserId) {
-      return { success: true, userPlants: [] };
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const whereClause: any = {
       userId: currentUserId,
