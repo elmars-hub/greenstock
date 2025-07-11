@@ -1,4 +1,4 @@
-# 🌱 Plantventory (GreenStock)
+# 🌱 GreenStock
 
 A modern, full-stack plant inventory management application built with Next.js, TypeScript, and Prisma. Track your plant collection with ease using a beautiful, responsive interface.
 
@@ -10,6 +10,7 @@ A modern, full-stack plant inventory management application built with Next.js, 
 ## ✨ Features
 
 ### 🌿 Plant Management
+
 - **Add Plants**: Create new plant entries with detailed information
 - **Edit Plants**: Update plant details including name, description, category, price, and stock
 - **Delete Plants**: Remove plants from your inventory
@@ -18,27 +19,32 @@ A modern, full-stack plant inventory management application built with Next.js, 
 - **Price Management**: Set and track plant prices
 
 ### 🖼️ Image Management
+
 - **Image Upload**: Upload plant images using UploadThing integration
 - **Image Display**: View plant images in detailed plant cards
 - **Responsive Images**: Optimized image display across all devices
 
 ### 🔍 Search & Filter
+
 - **Search Plants**: Find plants by name with real-time search
 - **Category Filter**: Filter plants by category
 - **Combined Search**: Use both search and category filters simultaneously
 
 ### 👤 User Authentication
+
 - **Secure Authentication**: Built with Stack authentication
 - **User-Specific Data**: Each user sees only their own plant collection
 - **Protected Routes**: Secure access to plant management features
 
 ### 📱 Responsive Design
+
 - **Mobile-First**: Optimized for all screen sizes
 - **Modern UI**: Built with shadcn/ui components
 - **Dark/Light Mode**: Theme support with next-themes
 - **Beautiful Animations**: Smooth transitions and hover effects
 
 ### 🚀 Performance
+
 - **Client-Side Rendering**: Fast, responsive user interface
 - **Optimized Queries**: Efficient database queries with Prisma
 - **Image Optimization**: Next.js image optimization
@@ -47,6 +53,7 @@ A modern, full-stack plant inventory management application built with Next.js, 
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Next.js 14** - React framework with App Router
 - **TypeScript** - Type-safe JavaScript
 - **Tailwind CSS** - Utility-first CSS framework
@@ -55,12 +62,14 @@ A modern, full-stack plant inventory management application built with Next.js, 
 - **React Hot Toast** - Toast notifications
 
 ### Backend
+
 - **Prisma** - Database ORM
 - **PostgreSQL** - Primary database (via Neon)
 - **Stack** - Authentication and user management
 - **UploadThing** - File upload service
 
 ### Development Tools
+
 - **ESLint** - Code linting
 - **PostCSS** - CSS processing
 - **Next.js** - Development server and build tools
@@ -68,6 +77,7 @@ A modern, full-stack plant inventory management application built with Next.js, 
 ## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
+
 - [Node.js](https://nodejs.org/) (version 18 or higher)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 - [Git](https://git-scm.com/)
