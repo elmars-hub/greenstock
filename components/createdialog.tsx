@@ -17,6 +17,7 @@ import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 import { createPlant } from "@/app/actions/user.action";
 import { toast } from "react-hot-toast";
+import ImageUpload from "./imageUpload";
 
 export default function CreateDialog() {
   const [open, setOpen] = useState(false);
@@ -179,7 +180,7 @@ export default function CreateDialog() {
           </div>
 
           {/* Image Upload */}
-          {/* <div className="py-5">
+          <div className="py-5">
             <ImageUpload
               endpoint="postImage"
               value={formData.imageUrl}
@@ -187,7 +188,7 @@ export default function CreateDialog() {
                 handleChange("imageUrl", url);
               }}
             />
-          </div> */}
+          </div>
 
           <AlertDialogFooter className="mt-4">
             <AlertDialogCancel className="cursor-pointer">
