@@ -22,6 +22,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         const currentUser = await stackServerApp.getUser();
         setUser(currentUser);
 
+<<<<<<< HEAD
         if (currentUser) {
           const [id] = params.slug.split("--");
           const plantData = await getPlantsById(id);
@@ -37,6 +38,47 @@ export default function Page({ params }: { params: { slug: string } }) {
 
     loadData();
   }, [params.slug]);
+=======
+    return {
+      title: plant ? plant.name : "Plant Details",
+      description: plant
+        ? plant.description || "Plant details page"
+        : "Plant details page",
+    };
+  } catch {
+    return {
+      title: "Plant Details",
+      description: "Plant details page",
+    };
+  }
+}
+
+async function Page({ params }: { params: { slug: string } }) {
+  try {
+    const user = await stackServerApp.getUser();
+    const [id] = params.slug.split("--");
+    const plant = await getPlantsById(id);
+
+    if (!user) {
+      return <SignIn />;
+    }
+
+    if (!plant) {
+      return (
+        <div className="mt-7 max-w-7xl mx-auto px-4">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Plant Not Found
+            </h1>
+            <p className="text-gray-600">
+              The plant you&apos;re looking for doesn&apos;t exist or has been
+              removed.
+            </p>
+          </div>
+        </div>
+      );
+    }
+>>>>>>> parent of f4dddc2 (fix)
 
   if (loading) {
     return (
