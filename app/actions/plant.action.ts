@@ -7,8 +7,8 @@ import { revalidatePath } from "next/cache";
 
 export async function getPlants(searchTerm?: string) {
   try {
-    // Check if we're in a build environment
-    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    // Check if we're in a build environment or missing database URL
+    if (!process.env.DATABASE_URL || (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL)) {
       console.warn("DATABASE_URL not available during build");
       return { success: true, userPlants: [] };
     }
@@ -49,8 +49,8 @@ export async function getPlants(searchTerm?: string) {
 
 export async function getPlantsById(id: string) {
   try {
-    // Check if we're in a build environment
-    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    // Check if we're in a build environment or missing database URL
+    if (!process.env.DATABASE_URL || (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL)) {
       console.warn("DATABASE_URL not available during build");
       return null;
     }

@@ -6,6 +6,7 @@ import { Suspense } from "react";
 
 // Force dynamic rendering for this page since it uses cookies
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 function PlantsTableSkeleton() {
   return (
@@ -18,6 +19,24 @@ function PlantsTableSkeleton() {
 }
 
 export default async function Plants() {
+  // Early return for build time
+  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    return (
+      <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
+        <div className="lg:col-span-full">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Loading Plants...
+            </h1>
+            <p className="text-gray-600">
+              Please wait while we load your plant inventory.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   try {
     const user = await stackServerApp.getUser();
 
