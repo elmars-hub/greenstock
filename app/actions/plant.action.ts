@@ -50,6 +50,7 @@ export async function getPlants(searchTerm?: string) {
 
 export async function getPlantsById(id: string) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   try {
     // Check if we're in a build environment or missing database URL
     if (!process.env.DATABASE_URL || (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL)) {
@@ -66,6 +67,11 @@ export async function getPlantsById(id: string) {
     console.error("Error in getPlantsById:", error);
     return null;
   }
+=======
+  return await prisma.plants.findUnique({
+    where: { id },
+  });
+>>>>>>> parent of f4dddc2 (fix)
 =======
   return await prisma.plants.findUnique({
     where: { id },

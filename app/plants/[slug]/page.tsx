@@ -62,6 +62,7 @@ export async function generateMetadata({
 
 async function Page({ params }: { params: { slug: string } }) {
   try {
+<<<<<<< HEAD
     const user = await stackServerApp.getUser();
     const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
@@ -122,6 +123,8 @@ async function Page({ params }: { params: { slug: string } }) {
   }
 
   try {
+=======
+>>>>>>> parent of f4dddc2 (fix)
     const user = await stackServerApp.getUser();
     const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
