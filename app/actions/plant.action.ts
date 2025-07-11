@@ -9,6 +9,10 @@ export async function getPlants(searchTerm?: string) {
   try {
     const currentUserId = await getUserId();
 
+    if (!currentUserId) {
+      return { success: true, userPlants: [] };
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const whereClause: any = {
       userId: currentUserId,
