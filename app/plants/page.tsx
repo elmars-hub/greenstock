@@ -1,9 +1,12 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import InventoryTable from "@/components/InventoryTable";
+import { stackServerApp } from "@/stack";
 import { SignUp } from "@stackframe/stack";
 import { getPlants } from "../actions/plant.action";
+import { Suspense } from "react";
+
+// Force dynamic rendering for this page since it uses cookies
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 function PlantsTableSkeleton() {
   return (
@@ -15,40 +18,43 @@ function PlantsTableSkeleton() {
   );
 }
 
-export default function Plants() {
-  const [user, setUser] = useState<any>(null);
-  const [plants, setPlants] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        // Import stackServerApp dynamically to avoid SSR issues
-        const { stackServerApp } = await import("@/stack");
-        const currentUser = await stackServerApp.getUser();
-        setUser(currentUser);
-
-        if (currentUser) {
-          const plantsData = await getPlants();
-          setPlants(plantsData);
-        }
-      } catch (err) {
-        console.error("Error loading data:", err);
-        setError("Failed to load data");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadData();
-  }, []);
-
-  if (loading) {
-    return <PlantsTableSkeleton />;
+export default async function Plants() {
+  // Early return for build time
+  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    return (
+      <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
+        <div className="lg:col-span-full">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Loading Plants...
+            </h1>
+            <p className="text-gray-600">
+              Please wait while we load your plant inventory.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
-  if (error) {
+  try {
+    const user = await stackServerApp.getUser();
+
+    return (
+      <>
+        {user ? (
+          <Suspense fallback={<PlantsTableSkeleton />}>
+            <PlantsContent />
+          </Suspense>
+        ) : (
+          <div className="flex justify-center mt-16 items-center">
+            <SignUp />
+          </div>
+        )}
+      </>
+    );
+  } catch (error) {
+    console.error("Error in Plants component:", error);
     return (
       <div className="flex justify-center mt-16 items-center">
         <div className="text-center">
@@ -62,20 +68,34 @@ export default function Plants() {
       </div>
     );
   }
+}
 
-  if (!user) {
+async function PlantsContent() {
+  try {
+    const plants = await getPlants();
+    
     return (
-      <div className="flex justify-center mt-16 items-center">
-        <SignUp />
+      <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
+        <div className="lg:col-span-full">
+          <InventoryTable plants={plants} loading={false} />
+        </div>
+      </div>
+    );
+  } catch (error) {
+    console.error("Error loading plants:", error);
+    return (
+      <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
+        <div className="lg:col-span-full">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Error Loading Plants
+            </h1>
+            <p className="text-gray-600">
+              There was an error loading your plants. Please try again later.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
-
-  return (
-    <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
-      <div className="lg:col-span-full">
-        <InventoryTable plants={plants} loading={false} />
-      </div>
-    </div>
-  );
 }
