@@ -48,9 +48,22 @@ export async function getPlants(searchTerm?: string) {
 }
 
 export async function getPlantsById(id: string) {
-  return await prisma.plants.findUnique({
-    where: { id },
-  });
+  try {
+    // Check if we're in a build environment
+    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+      console.warn("DATABASE_URL not available during build");
+      return null;
+    }
+
+    const plant = await prisma.plants.findUnique({
+      where: { id },
+    });
+
+    return plant;
+  } catch (error) {
+    console.error("Error in getPlantsById:", error);
+    return null;
+  }
 }
 
 export async function editPlant(id: string, data: Prisma.PlantsUpdateInput) {

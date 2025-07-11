@@ -32,6 +32,22 @@ export async function generateMetadata({
 
 async function Page({ params }: { params: { slug: string } }) {
   try {
+    // Check if we're in a build environment without proper database connection
+    if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+      return (
+        <div className="mt-7 max-w-7xl mx-auto px-4">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Service Temporarily Unavailable
+            </h1>
+            <p className="text-gray-600">
+              We're experiencing some technical difficulties. Please try again later.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     const user = await stackServerApp.getUser();
     const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
