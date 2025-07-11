@@ -49,11 +49,11 @@ async function Hero() {
             {/* Action Buttons */}
             <div className="mt-6 flex justify-center gap-3">
               {!user ? (
-                <Button className="shadow-sm cursor-pointer transition-shadow hover:shadow bg-green-600  dark:text-green-400 hover:bg-emerald-700 text-white border-emerald-600 hover:border-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:border-emerald-500 dark:hover:border-emerald-600">
+                <Button className="shadow-sm cursor-pointer transition-shadow hover:shadow bg-green-600   hover:bg-emerald-700 text-white ">
                   <Link href={app.signUp}>Sign Up Now</Link>
                 </Button>
               ) : (
-                <Button className="shadow-sm cursor-pointer transition-shadow hover:shadow bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 hover:border-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:border-emerald-500 dark:hover:border-emerald-600">
+                <Button className="shadow-sm cursor-pointer transition-shadow hover:shadow bg-emerald-600 hover:bg-emerald-700 text-white ">
                   <Link href="/plants">Get Started</Link>
                 </Button>
               )}
