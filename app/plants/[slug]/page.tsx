@@ -12,14 +12,23 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  // During build time, return default metadata to prevent build failures
-  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+  // Prevent build-time execution by checking environment
+  if (
+    process.env.VERCEL_ENV === undefined &&
+    process.env.NODE_ENV !== "development"
+  ) {
+    console.log("Build time detected, returning default metadata");
     return safePlantMetadata();
   }
 
   try {
     const [id] = params.slug.split("--");
-    const plant = await getPlantsById(id);
+
+    const timeoutPromise = new Promise<null>((_, reject) => {
+      setTimeout(() => reject(new Error("Database timeout")), 5000);
+    });
+
+    const plant = await Promise.race([getPlantsById(id), timeoutPromise]);
 
     if (!plant) {
       return safePlantMetadata();
@@ -38,12 +47,18 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: { slug: string } }) {
   try {
-    // Safely get user without failing the build
     let user = null;
     try {
       user = await stackServerApp.getUser();
     } catch (stackError) {
       console.error("Stack authentication error:", stackError);
+      // During build, return a placeholder
+      if (
+        process.env.VERCEL_ENV === undefined &&
+        process.env.NODE_ENV !== "development"
+      ) {
+        return <div>Loading...</div>;
+      }
     }
 
     const [id] = params.slug.split("--");
@@ -54,6 +69,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
       plant = await getPlantsById(id);
     } catch (dbError) {
       console.error("Database error:", dbError);
+      // During build, return a placeholder
+      if (
+        process.env.VERCEL_ENV === undefined &&
+        process.env.NODE_ENV !== "development"
+      ) {
+        return <div>Loading...</div>;
+      }
     }
 
     // If no user, show sign in

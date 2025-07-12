@@ -40,6 +40,23 @@ export async function getPlantsById(id: string) {
       return null;
     }
 
+    // Skip database calls during build time
+    if (
+      process.env.VERCEL_ENV === undefined &&
+      process.env.NODE_ENV !== "development"
+    ) {
+      console.log(
+        "Build environment detected, skipping database call for getPlantsById"
+      );
+      return null;
+    }
+
+    // Check if database URL is available
+    if (!process.env.DATABASE_URL) {
+      console.error("DATABASE_URL not available");
+      return null;
+    }
+
     const plant = await prisma.plants.findUnique({
       where: { id },
     });
