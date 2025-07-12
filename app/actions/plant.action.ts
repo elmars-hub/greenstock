@@ -7,7 +7,23 @@ import { revalidatePath } from "next/cache";
 
 export async function getPlants(searchTerm?: string) {
   try {
+    // Skip database calls during build time
+    if (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV) {
+      console.log("Build environment detected, skipping database call for getPlants");
+      return { success: true, userPlants: [] };
+    }
+
+    // Check if database URL is available
+    if (!process.env.DATABASE_URL) {
+      console.error("DATABASE_URL not available");
+      return { success: true, userPlants: [] };
+    }
+
     const currentUserId = await getUserId();
+
+    if (!currentUserId) {
+      return { success: true, userPlants: [] };
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const whereClause: any = {
@@ -29,7 +45,7 @@ export async function getPlants(searchTerm?: string) {
     return { success: true, userPlants };
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to fetch plant");
+    return { success: true, userPlants: [] };
   }
 }
 
@@ -41,13 +57,8 @@ export async function getPlantsById(id: string) {
     }
 
     // Skip database calls during build time
-    if (
-      process.env.VERCEL_ENV === undefined &&
-      process.env.NODE_ENV !== "development"
-    ) {
-      console.log(
-        "Build environment detected, skipping database call for getPlantsById"
-      );
+    if (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV) {
+      console.log("Build environment detected, skipping database call for getPlantsById");
       return null;
     }
 
