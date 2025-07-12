@@ -3,6 +3,7 @@ import { stackServerApp } from "@/stack";
 import { SignUp } from "@stackframe/stack";
 import { getPlants } from "../actions/plant.action";
 import { Suspense } from "react";
+import { isBuildEnvironment } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ function PlantsTableSkeleton() {
 
 export default async function Plants() {
   // Early return during build time
-  if (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV) {
+  if (isBuildEnvironment()) {
     return (
       <div className="mt-7 max-w-7xl mx-auto px-4">
         <div className="text-center py-10">

@@ -2,6 +2,7 @@ import PlantCard from "./PlantCard";
 import { getPlantsById } from "@/app/actions/plant.action";
 import { SignIn } from "@stackframe/stack";
 import { stackServerApp } from "@/stack";
+import { isBuildEnvironment } from "@/lib/utils";
 
 // Force this page to be dynamic and not statically generated
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export const generateStaticParams = () => {
 
 export default async function Page({ params }: { params: { slug: string } }) {
   // Early return during build time
-  if (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV) {
+  if (isBuildEnvironment()) {
     return (
       <div className="mt-7 max-w-7xl mx-auto px-4">
         <div className="text-center py-10">
