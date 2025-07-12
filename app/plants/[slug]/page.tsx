@@ -3,6 +3,7 @@ import PlantCard from "./PlantCard";
 import { getPlantsById } from "@/app/actions/plant.action";
 import { SignIn } from "@stackframe/stack";
 import { stackServerApp } from "@/stack";
+// import Head from "next/head";
 
 export const dynamic = "force-dynamic";
 
@@ -11,19 +12,22 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
+  const [id] = params.slug.split("--");
+
   try {
-    const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
 
+    if (!plant) throw new Error("No plant found");
+
     return {
-      title: plant?.name || "Plant Details",
-      description: plant?.description || "Plant details page",
+      title: `${plant.name} | Plant Details`,
+      description: plant.description ?? "Learn more about this plant.",
     };
   } catch (error) {
-    console.error("Error generating metadata:", error);
+    console.error("Metadata generation failed:", error);
     return {
       title: "Plant Details",
-      description: "Plant details page",
+      description: "View plant information and care guide.",
     };
   }
 }
@@ -40,7 +44,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
     }
 
     const [id] = params.slug.split("--");
-    
+
     // Safely get plant data
     let plant = null;
     try {
@@ -60,8 +64,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
       return (
         <div className="mt-7 max-w-7xl mx-auto px-4">
           <div className="text-center py-10">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">Plant Not Found</h1>
-            <p className="text-gray-600">The plant you're looking for doesn't exist or has been removed.</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Plant Not Found
+            </h1>
+            <p className="text-gray-600">
+              The plant you are looking for does not exist or has been removed.
+            </p>
           </div>
         </div>
       );
@@ -79,8 +87,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
     return (
       <div className="mt-7 max-w-7xl mx-auto px-4">
         <div className="text-center py-10">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Error Loading Plant</h1>
-          <p className="text-gray-600">Unable to load plant details. Please try again later.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Error Loading Plant
+          </h1>
+          <p className="text-gray-600">
+            Unable to load plant details. Please try again later.
+          </p>
         </div>
       </div>
     );

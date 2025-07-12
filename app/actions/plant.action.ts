@@ -39,11 +39,11 @@ export async function getPlantsById(id: string) {
       console.error("No ID provided to getPlantsById");
       return null;
     }
-    
+
     const plant = await prisma.plants.findUnique({
       where: { id },
     });
-    
+
     return plant;
   } catch (error) {
     console.error("Error fetching plant by ID:", error);
