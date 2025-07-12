@@ -1,9 +1,9 @@
-import React from "react";
 import PlantCard from "./PlantCard";
 import { getPlantsById } from "@/app/actions/plant.action";
 import { SignIn } from "@stackframe/stack";
 import { stackServerApp } from "@/stack";
-// import Head from "next/head";
+import { safePlantMetadata } from "@/lib/metadata";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
@@ -11,24 +11,28 @@ export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}) {
-  const [id] = params.slug.split("--");
+}): Promise<Metadata> {
+  // During build time, return default metadata to prevent build failures
+  if (process.env.NODE_ENV === "production" && !process.env.DATABASE_URL) {
+    return safePlantMetadata();
+  }
 
   try {
+    const [id] = params.slug.split("--");
     const plant = await getPlantsById(id);
 
-    if (!plant) throw new Error("No plant found");
+    if (!plant) {
+      return safePlantMetadata();
+    }
 
-    return {
-      title: `${plant.name} | Plant Details`,
-      description: plant.description ?? "Learn more about this plant.",
-    };
+    return safePlantMetadata(
+      `${plant.name} | Plant Details`,
+      plant.description ??
+        `Learn more about ${plant.name} and its care requirements.`
+    );
   } catch (error) {
-    console.error("Metadata generation failed:", error);
-    return {
-      title: "Plant Details",
-      description: "View plant information and care guide.",
-    };
+    console.error("Error generating metadata:", error);
+    return safePlantMetadata();
   }
 }
 
@@ -40,7 +44,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
       user = await stackServerApp.getUser();
     } catch (stackError) {
       console.error("Stack authentication error:", stackError);
-      // Don't throw here, just continue with user = null
     }
 
     const [id] = params.slug.split("--");
@@ -51,7 +54,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
       plant = await getPlantsById(id);
     } catch (dbError) {
       console.error("Database error:", dbError);
-      // Don't throw here, just continue with plant = null
     }
 
     // If no user, show sign in
