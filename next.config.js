@@ -12,9 +12,27 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Skip static optimization for dynamic routes during build
-  generateBuildId: async () => {
-    return "build-" + Date.now();
+  // Disable static optimization completely for this route
+  // This ensures Next.js doesn't try to pre-render or collect data
+  // for dynamic routes during the build step.
+  async generateStaticParams() {
+    return []; // Crucial: Return an empty array to prevent static generation
+  },
+  async rewrites() {
+    return [];
+  },
+  async headers() {
+    return [
+      {
+        source: "/plants/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+        ],
+      },
+    ];
   },
 };
 

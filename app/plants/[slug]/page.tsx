@@ -6,57 +6,8 @@ import { stackServerApp } from "@/stack";
 // import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
-
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: { slug: string };
-// }): Promise<Metadata> {
-//   // During build, return basic metadata
-//   if (
-//     !process.env.DATABASE_URL ||
-//     (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV)
-//   ) {
-//     const [id] = params.slug.split("--");
-//     return safePlantMetadata(
-//       `Plant ${id} | Plant Care Guide`,
-//       `Complete care guide and growing tips for plant ${id}. Learn about watering, lighting, and maintenance.`
-//     );
-//   }
-
-//   try {
-//     // Only attempt database call in runtime environments
-//     const [id] = params.slug.split("--");
-
-//     // Add timeout protection
-//     const timeoutPromise = new Promise<null>((_, reject) => {
-//       setTimeout(() => reject(new Error("Timeout")), 2000);
-//     });
-
-//     const plant = await Promise.race([getPlantsById(id), timeoutPromise]);
-
-//     if (plant) {
-//       return safePlantMetadata(
-//         `${plant.name} | Plant Care Guide`,
-//         plant.description ??
-//           `Complete care guide for ${plant.name}. Learn about watering, lighting, and growing tips.`
-//       );
-//     }
-
-//     // Fallback with slug info
-//     return safePlantMetadata(
-//       `Plant ${id} | Plant Care Guide`,
-//       `Complete care guide and growing tips for plant ${id}.`
-//     );
-//   } catch (error) {
-//     console.error("Error generating metadata:", error);
-//     const [id] = params.slug.split("--");
-//     return safePlantMetadata(
-//       `Plant ${id} | Plant Care Guide`,
-//       `Complete care guide and growing tips for plant ${id}.`
-//     );
-//   }
-// }
+export const dynamicParams = true;
+export const revalidate = 0;
 
 export default async function Page({ params }: { params: { slug: string } }) {
   try {
