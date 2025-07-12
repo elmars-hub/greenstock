@@ -12,36 +12,49 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  // Prevent build-time execution by checking environment
+  // During build, return basic metadata
   if (
-    process.env.VERCEL_ENV === undefined &&
-    process.env.NODE_ENV !== "development"
+    !process.env.DATABASE_URL ||
+    (process.env.NODE_ENV === "production" && !process.env.VERCEL_ENV)
   ) {
-    console.log("Build time detected, returning default metadata");
-    return safePlantMetadata();
+    const [id] = params.slug.split("--");
+    return safePlantMetadata(
+      `Plant ${id} | Plant Care Guide`,
+      `Complete care guide and growing tips for plant ${id}. Learn about watering, lighting, and maintenance.`
+    );
   }
 
   try {
+    // Only attempt database call in runtime environments
     const [id] = params.slug.split("--");
 
+    // Add timeout protection
     const timeoutPromise = new Promise<null>((_, reject) => {
-      setTimeout(() => reject(new Error("Database timeout")), 5000);
+      setTimeout(() => reject(new Error("Timeout")), 2000);
     });
 
     const plant = await Promise.race([getPlantsById(id), timeoutPromise]);
 
-    if (!plant) {
-      return safePlantMetadata();
+    if (plant) {
+      return safePlantMetadata(
+        `${plant.name} | Plant Care Guide`,
+        plant.description ??
+          `Complete care guide for ${plant.name}. Learn about watering, lighting, and growing tips.`
+      );
     }
 
+    // Fallback with slug info
     return safePlantMetadata(
-      `${plant.name} | Plant Details`,
-      plant.description ??
-        `Learn more about ${plant.name} and its care requirements.`
+      `Plant ${id} | Plant Care Guide`,
+      `Complete care guide and growing tips for plant ${id}.`
     );
   } catch (error) {
     console.error("Error generating metadata:", error);
-    return safePlantMetadata();
+    const [id] = params.slug.split("--");
+    return safePlantMetadata(
+      `Plant ${id} | Plant Care Guide`,
+      `Complete care guide and growing tips for plant ${id}.`
+    );
   }
 }
 
@@ -112,7 +125,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <div className="mt-7 max-w-7xl mx-auto px-4">
         <div className="text-center py-10">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Error Loading Plant
+            Error Loading Plants
           </h1>
           <p className="text-gray-600">
             Unable to load plant details. Please try again later.
