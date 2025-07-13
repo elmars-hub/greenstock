@@ -1,4 +1,3 @@
-// app/actions/plant.action.ts
 "use server";
 
 import { getUserId } from "./user.action";
@@ -43,13 +42,27 @@ export async function getPlantsById(id: string) {
       return null;
     }
 
-    // Check if DATABASE_URL is available. If not, it's likely a build environment
-    // or a misconfiguration where we cannot connect to the database.
+    // New check: Explicitly skip database calls if in a Vercel build environment.
+    // process.env.VERCEL_ENV will be 'production' or 'preview' on Vercel,
+    // and process.env.NODE_ENV will be 'production'.
+    // This condition aims to catch the build phase where direct DB access might be restricted.
+    const isVercelBuild =
+      process.env.VERCEL_ENV && process.env.NODE_ENV === "production";
+
+    if (isVercelBuild) {
+      console.warn(
+        "Detected Vercel build environment. Skipping database call for getPlantsById to prevent build failure due to network restrictions."
+      );
+      return null; // Crucial: Return null to allow the build to proceed.
+    }
+
+    // The original check for DATABASE_URL is still useful for other environments
+    // or if DATABASE_URL is genuinely missing for some reason.
     if (!process.env.DATABASE_URL) {
       console.warn(
-        "DATABASE_URL not available. Skipping database call for getPlantsById during build or misconfiguration."
+        "DATABASE_URL not available. Skipping database call for getPlantsById."
       );
-      return null; // Crucial: Return null to prevent build failure
+      return null;
     }
 
     const plant = await prisma.plants.findUnique({
