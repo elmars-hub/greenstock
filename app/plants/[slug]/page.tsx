@@ -1,89 +1,89 @@
-// app/plants/[slug]/page.tsx
+import React from "react";
 import PlantCard from "./PlantCard";
 import { getPlantsById } from "@/app/actions/plant.action";
 import { SignIn } from "@stackframe/stack";
 import { stackServerApp } from "@/stack";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
-export const dynamicParams = true;
-export const revalidate = 0;
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  let user = null;
-  let plant = null;
-  const [id] = params.slug.split("--");
-
-  // Determine if we are likely in a Vercel build environment where external services might not be fully active.
-  // We use DATABASE_URL as a proxy: if it's not set, we assume it's a build environment or misconfiguration.
-  const isBuildEnvironment = !process.env.DATABASE_URL;
-
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   try {
-    // Attempt to get user. If it fails (e.g., during build without proper auth setup),
-    // we should handle it gracefully without crashing the build.
-    if (isBuildEnvironment) {
-      console.log("Skipping Stack authentication during build environment.");
-      user = null; // Assume no user during build to prevent crashes
-    } else {
-      user = await stackServerApp.getUser();
-    }
-  } catch (stackError) {
-    console.error("Stack authentication error during page load:", stackError);
-    if (isBuildEnvironment) {
-      console.log(
-        "Auth failed during build-like environment. Proceeding without user."
-      );
-      user = null; // Ensure user is null if auth fails during build
-    } else {
-      // If not a build environment, re-throw the error for runtime debugging.
-      throw stackError;
-    }
-  }
+    const [id] = params.slug.split("--");
+    const plant = await getPlantsById(id);
+    const title = plant
+      ? `${plant.name} - Greenstock`
+      : "Plant Details - Greenstock";
+    const description = plant
+      ? plant.description ||
+        `Explore ${plant.name} and its details on Greenstock.`
+      : "Discover a wide variety of plants on Greenstock, your go-to source for green living.";
 
+    return {
+      title,
+      description,
+    };
+  } catch {
+    return {
+      title: "Plant Details",
+      description: "Plant details page",
+    };
+  }
+}
+
+async function Page({ params }: { params: { slug: string } }) {
   try {
-    // getPlantsById already has a check for DATABASE_URL, which aligns with isBuildEnvironment.
-    // If DATABASE_URL is not set (common during build), it will return null.
-    plant = await getPlantsById(id);
-  } catch (dbError) {
-    console.error("Database error during page load:", dbError);
-    if (isBuildEnvironment) {
-      console.log(
-        "DB call failed during build-like environment. Proceeding without plant data."
-      );
-      plant = null; // Ensure plant is null if DB call fails during build
-    } else {
-      // If not a build environment, re-throw the error for runtime debugging.
-      throw dbError;
+    const user = await stackServerApp.getUser();
+    const [id] = params.slug.split("--");
+    const plant = await getPlantsById(id);
+
+    if (!user) {
+      return <SignIn />;
     }
-  }
 
-  // If `isBuildEnvironment` is true and we've skipped external calls,
-  // we need to ensure the component renders something valid to prevent build errors.
-  // Returning SignIn or a "Plant Not Found" message is fine, as long as it doesn't crash.
+    if (!plant) {
+      return (
+        <div className="mt-7 max-w-7xl mx-auto px-4">
+          <div className="text-center py-10">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              Plant Not Found
+            </h1>
+            <p className="text-gray-600">
+              The plant you&apos;re looking for doesn&apos;t exist or has been
+              removed.
+            </p>
+          </div>
+        </div>
+      );
+    }
 
-  if (!user) {
-    return <SignIn />;
-  }
-
-  if (!plant) {
+    return (
+      <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
+        <div className="lg:col-span-full">
+          <PlantCard plant={plant} />
+        </div>
+      </div>
+    );
+  } catch (error) {
+    console.error("Error loading plant page:", error);
     return (
       <div className="mt-7 max-w-7xl mx-auto px-4">
         <div className="text-center py-10">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Plant Not Found
+            Error Loading Plant
           </h1>
           <p className="text-gray-600">
-            The plant you are looking for does not exist or has been removed.
+            There was an error loading the plant details. Please try again
+            later.
           </p>
         </div>
       </div>
     );
   }
-
-  return (
-    <div className="mt-7 max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-10 gap-6">
-      <div className="lg:col-span-full">
-        <PlantCard plant={plant} />
-      </div>
-    </div>
-  );
 }
+
+export default Page;

@@ -67,7 +67,8 @@ export function Combobox({ value, onChange }: ComboboxProps) {
             {plantCategories.map((cat) => (
               <div
                 key={cat.value}
-                className="flex items-center space-x-2 p-2 hover:bg-gray-100 cursor-pointer rounded text-black"
+                className="flex items-center space-x-2 p-2 hover:bg-gray-100 cursor-pointer rounded text-black
+                text-sm sm:text-base lg:text-lg" // Added responsive text classes
                 onClick={() => {
                   onChange(cat.value);
                   setOpen(false);

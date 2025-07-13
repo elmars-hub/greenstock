@@ -47,7 +47,7 @@ export default function InventoryTable({
   return (
     <div className="w-full space-y-4">
       <div className="flex items-center gap-2 py-4">
-        <div className="relative max-w-sm w-full">
+        <div className="relative max-w-xl w-full">
           <Input
             placeholder="Filter plants..."
             className="pl-10"
@@ -56,10 +56,14 @@ export default function InventoryTable({
           />
           <Search className="absolute h-4 w-4 left-3 top-1/2 transform -translate-y-1/2" />
         </div>
-        <Combobox
-          value={selectedCategory}
-          onChange={(val) => setSelectedCategory(val)}
-        />
+        <div className="relative max-w-52 w-full">
+          {" "}
+          {/* Combobox wrapper */}
+          <Combobox
+            value={selectedCategory}
+            onChange={(val) => setSelectedCategory(val)}
+          />
+        </div>
 
         <CreateDialog />
       </div>

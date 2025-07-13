@@ -7,8 +7,6 @@ import { revalidatePath } from "next/cache";
 
 export async function getPlants(searchTerm?: string) {
   try {
-    // Note: getPlants is not directly called by the [slug] page, but if it were,
-    // it would also need similar build-time handling if it's causing issues.
     const currentUserId = await getUserId();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,57 +23,23 @@ export async function getPlants(searchTerm?: string) {
 
     const userPlants = await prisma.plants.findMany({
       where: whereClause,
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     revalidatePath("/");
     return { success: true, userPlants };
   } catch (error) {
-    console.error("Error in getPlants:", error); // Use console.error for errors
+    console.log(error);
     throw new Error("Failed to fetch plant");
   }
 }
 
 export async function getPlantsById(id: string) {
-  try {
-    if (!id) {
-      console.error("No ID provided to getPlantsById");
-      return null;
-    }
-
-    // New check: Explicitly skip database calls if in a Vercel build environment.
-    // process.env.VERCEL_ENV will be 'production' or 'preview' on Vercel,
-    // and process.env.NODE_ENV will be 'production'.
-    // This condition aims to catch the build phase where direct DB access might be restricted.
-    const isVercelBuild =
-      process.env.VERCEL_ENV && process.env.NODE_ENV === "production";
-
-    if (isVercelBuild) {
-      console.warn(
-        "Detected Vercel build environment. Skipping database call for getPlantsById to prevent build failure due to network restrictions."
-      );
-      return null; // Crucial: Return null to allow the build to proceed.
-    }
-
-    // The original check for DATABASE_URL is still useful for other environments
-    // or if DATABASE_URL is genuinely missing for some reason.
-    if (!process.env.DATABASE_URL) {
-      console.warn(
-        "DATABASE_URL not available. Skipping database call for getPlantsById."
-      );
-      return null;
-    }
-
-    const plant = await prisma.plants.findUnique({
-      where: { id },
-    });
-
-    return plant;
-  } catch (error) {
-    console.error("Error fetching plant by ID:", error);
-    // During build, returning null here allows the build to proceed.
-    // During runtime, you might want to re-throw or handle differently.
-    return null;
-  }
+  return await prisma.plants.findUnique({
+    where: { id },
+  });
 }
 
 export async function editPlant(id: string, data: Prisma.PlantsUpdateInput) {
